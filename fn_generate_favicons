@@ -33,9 +33,9 @@ async function main() {
     fn_generate_favicons [--png <path>] [--svg <path>] [--dist <output-dir>]
 
   Arguments:
-    --png, -p     Path to png source. Defaults to "./favicon_src.png" if not specified.
+    --png, -p     Path to png source. Defaults to "favicon_src.png" if not specified.
 
-    --svg, -s     Path to svg source. Defaults to "./favicon_src.svg" if not specified.
+    --svg, -s     Path to svg source. Defaults to "favicon_src.svg" if not specified.
 
     --dist, -d    Output directory for generated favicon files. If not specified, create temporary directory in current directory.
 
@@ -55,8 +55,8 @@ async function main() {
     }
   }
 
-  const pngSrc = args.pngSrc || './favicon_src.png';
-  const svgSrc = args.svgSrc || './favicon_src.svg';
+  const pngSrc = path.resolve(process.cwd(), args.pngSrc || 'favicon_src.png');
+const svgSrc = path.resolve(process.cwd(), args.svgSrc || 'favicon_src.svg');
   if(!fs.existsSync(pngSrc)) {
     console.log('PNG source file not found');
     exit(1)
@@ -66,7 +66,7 @@ async function main() {
     exit(1)
   }
 
-  const distDir = args.dist || fs.mkdtempSync(path.join(process.cwd(), 'favicons_'));
+ const distDir = args.dist || fs.mkdtempSync(path.join(process.cwd(), 'favicons_'));
 
   if (args.dist) fs.mkdirSync(distDir, { recursive: true });
 
@@ -123,6 +123,4 @@ async function main() {
   }
 }
 
-main().catch(err => {
-  console.error('Unexpected error:', err.message);
-});
+main().catch(err => {console.error('Unexpected error:', err.message)});
